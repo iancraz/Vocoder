@@ -98,7 +98,7 @@ def fundamental_period_estimate(rxx, fs):
   is_voiced = max(rxx) > 0.20
   return (period_idx, is_voiced)
 
-def vocode(signal, fs, f_custom, block_len, overlap, order, prev_block, p_coverage=0.1, unvoiced2zeros=True, glotal_type="triang"):
+def vocode(signal, fs, f_custom, block_len, overlap, order, prev_block, p_coverage=0.01, unvoiced2zeros=True, glotal_type="triang"):
   """
   Analyzes a speech signal and synthesizes a vocoded speech signal.
   The speech signal is analyzed using the levinson-durben algorithm
