@@ -12,7 +12,7 @@ import numpy as np
 def callback(indata, outdata, frames, time, status):
     if status:
         print(status)
-    outdata[:] = np.array(indata)*100
+    outdata[:] = np.array(indata)
 
 with sd.Stream(channels=1, callback=callback):
     print('#' * 80)

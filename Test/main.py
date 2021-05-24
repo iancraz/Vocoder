@@ -49,26 +49,16 @@ for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
         frecuencies = keyboard2chords[msvcrt.getwch()]
         print(f"Las frecuencias utilizadas son: {frecuencies[0]},{frecuencies[1]},{frecuencies[2]}")
     data = stream.read(CHUNK)
-    input = []
-    for u, byte in enumerate(data):
-        if u%2 == 0:
-            input.append(int(byte))
-    #input = input / np.amax(np.abs(input)) * 2 - 1  # Normalizo la entrada entre -1 y 1
+    input = np.fromstring(data,'int16')
+    input = input/(2**15)
 
 
-    WAV_TEST.append(input)
-    if i == 30:
-        break
+    out = vc.vocode(input, fs, f_custom=frecuencies[0], block_len=block_secs, overlap=overlp, order=16, prev_block=prev_half_block_sintetized)
 
-    # out = vc.vocode(input, fs, f_custom=frecuencies[0], block_len=block_secs, overlap=overlp, order=16, prev_block=prev_half_block_sintetized)
-    # out = out - np.amin(out)
-    # out = out / np.amax(np.abs(out))
-    # out = out * 255
-    # to_reprd = []
-    # for a in out:
-    #     to_reprd.append(int(a))
-    # to_reprd = bytes(bytearray(to_reprd))
-    stream.write(data, CHUNK)
+    out = out * 2**16
+    out = out.astype(np.int16)
+    asd = out.tobytes()
+    stream.write(asd, CHUNK)
     # prev_half_block_sintetized = out[len(out)-len(prev_half_block_sintetized):]
 
 
