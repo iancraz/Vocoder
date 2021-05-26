@@ -1,4 +1,6 @@
 # VocoderLive2021
+
+Leer el documento README.pdf para obtener una vista mas detallada.
  
 ## 1. Introducción
 
