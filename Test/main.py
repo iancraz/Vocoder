@@ -2,7 +2,7 @@ import pyaudio
 import msvcrt
 import Vocoder as gp
 import numpy as np
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import Vocoder as vc
 from scipy.io.wavfile import write
 
@@ -20,10 +20,10 @@ keyboard2chords = {'a':chords['A'], 's':chords['B'], 'd':chords['C'], 'f':chords
 
 #PyAudio Stuff
 
-CHUNK = 2**13
+CHUNK = 2**14
 WIDTH = 2
 CHANNELS = 1
-RATE = 44100
+RATE = 48000
 RECORD_SECONDS = 999999
 p = pyaudio.PyAudio()
 stream = p.open(format=p.get_format_from_width(WIDTH),
@@ -31,6 +31,8 @@ stream = p.open(format=p.get_format_from_width(WIDTH),
                 rate=RATE,
                 input=True,
                 output=True,
+                input_device_index=2,
+                output_device_index=5,
                 frames_per_buffer=CHUNK)
 
 #Start processing
@@ -47,7 +49,7 @@ for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
 
     if msvcrt.kbhit():
         frecuencies = keyboard2chords[msvcrt.getwch()]
-        print(f"Las frecuencias utilizadas son: {frecuencies[0]},{frecuencies[1]},{frecuencies[2]}")
+        print(f"Las frecuencias utilizadas son: {frecuencies[0]}, {frecuencies[1]}, {frecuencies[2]}")
     data = stream.read(CHUNK)
     input = np.fromstring(data,'int16')
     input = input/(2**15)
@@ -57,7 +59,7 @@ for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
     out2 = vc.vocode(input, fs, f_custom=frecuencies[1], block_len=block_secs, overlap=overlp, order=16, prev_block=prev_half_block_sintetized)
     out3 = vc.vocode(input, fs, f_custom=frecuencies[2], block_len=block_secs, overlap=overlp, order=16, prev_block=prev_half_block_sintetized)
     out = (out1 + out2 + out3)/3
-    out = out * 2**15
+    out = (out/np.max(np.abs(out))*0.75) * 2**15
     out = out.astype(np.int16)
     asd = out.tobytes()
     stream.write(asd, CHUNK)
