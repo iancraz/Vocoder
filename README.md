@@ -136,7 +136,7 @@ mismo
 Exponencial: Un pulso centrado en 0 donde la parte negativa es una exponencial
 creciente y la parte positiva una exponencial decreciente.
 
-[]()
+<img src="hhttps://github.com/iancraz/Vocoder/blob/main/docs/glottal.png?raw=true" width=500 align=center>
 
 Ejemplos de estos pulsos se pueden ver en la Figura superior. Por otro lado, si sintetizamos
 una señal de voz de ejemplo con estos pulsos glotales, con los siguientes parámetros:
@@ -149,7 +149,7 @@ una señal de voz de ejemplo con estos pulsos glotales, con los siguientes pará
 
 Obtenemos los resultados que se pueden observar en la Figura a continuación.
 
-[]()
+<img src="https://github.com/iancraz/Vocoder/blob/main/docs/results.png?raw=true" width=500 align=center>
 
 # Contacto
 >[Table of contents](#table-of-contents)
