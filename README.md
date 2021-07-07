@@ -1,8 +1,14 @@
 # VocoderLive2021
 
-Leer el documento README.pdf para obtener una vista mas detallada.
+# Table of contents
+
+* [Introducción](#Introducción)
+* [Enfoque LPC](#Enfoque-LPC)
+* [Contacto](#Contacto)
+* [Referencias](#Referencias)
  
-## 1. Introducción
+# Introducción
+>[Table of contents](#table-of-contents)
 
 Para el siguiente proyecto se busco implementar unVocoderde aplicación musical.
 Un vocoder es un sistema que analiza el sonido de una persona hablando, y mediante
@@ -13,12 +19,13 @@ los pulsos glotales acordemente, se pueden generar melodías y acordes para util
 ambientes musicales.
 
 
-## 2. Enfoque LPC
+# Enfoque LPC
+>[Table of contents](#table-of-contents)
 
 Para poder realizar este sistema se decidió utilizar el enfoqueLinear Prediction Coef-
 ficients(LPC), que se detallará brevemente a continuación.
 
-### 2.1. Modelo de producción de voz
+## Modelo de producción de voz
 
 Si recordamos del modelo de producción de voz, podemos simplificar el modelo en los
 bloques de la Figura 2.1.
@@ -31,7 +38,7 @@ ción estima la inversa del filtro articulatorio, por lo tanto, simplemente esti
 filtro error de predicción podemos utilizar el filtro articulatorio obtenido de una porción
 de audio para sintetizar unos pulsos glotales artificiales.
 
-### 2.2. Implementación
+## Implementación
 
 Para la implementación de este sistema, se realizó el método de la autocorrelación para
 estimar los coeficientes del filtro de error de producción y una ventana dehann para
@@ -43,7 +50,7 @@ overlap debe ser del 50 %.
 (^2) Este código fue basado en [1], donde ese código fue implementado para poder sintetizar la voz con
 pulsos artificiales, pero intentando modificar lo menos posible la voz de salida respecto de la entrada,
 
-```
+```Python
 def vocode(signal , fs , f_custom , block_len , overlap , order , prev_block,p_coverage =0.01 , unvoiced2zeros=True , glotal_type="triang"):
 
 out = zeros(len(signal))
@@ -76,9 +83,7 @@ for block , idx in block_process(signal , fs, block_len , overlap):
  vocoded *= hann(len(block))
  out[idx:idx + len(block)] += deemphasis(vocoded)
 return out
-
 ```
-Listing 1:Vocoder
 
 
 En este código se puede ver que, lo primero que se realiza es dividir la señal de en-
@@ -99,7 +104,7 @@ automático de ganancia (AGC) al final de la síntesis. Finalmente, cuando la se
 entrada es determinada como sonora, se realizan los pulsos glotales deseados y se los
 filtran por el filtroH(z) =AG(z), siendo A(z) el filtro error de predicción yG^2 =e(n).
 
-```
+```Python
 1 def fundamental_period_estimate(rxx , fs):
 2 """
 3 Calculates the fundamental frequency of an auto correlation array.
@@ -114,9 +119,8 @@ filtran por el filtroH(z) =AG(z), siendo A(z) el filtro error de predicción yG^
 12 return (period_idx , is_voiced)
 ```
 
-Listing 2:Fundamental Period Estimate
+## Pulsos glotales
 
-### 2.3. Pulsos glotales
 
 
 Para la implementación de pulsos glotales sintéticos, se utilizaron 4 formas de pulsos
@@ -132,33 +136,32 @@ mismo
 Exponencial: Un pulso centrado en 0 donde la parte negativa es una exponencial
 creciente y la parte positiva una exponencial decreciente.
 
-(a)Pulso glotal Triangular (b)Pulso glotal Hamming
+[]()
 
-(c)Pulso glotal Cuadrada (d)Pulso glotal Exponencial
-Figura 2.2:Pulsos glotales
-
-Ejemplos de estos pulsos se pueden ver en la figura 2.2. Por otro lado, si sintetizamos
+Ejemplos de estos pulsos se pueden ver en la Figura superior. Por otro lado, si sintetizamos
 una señal de voz de ejemplo con estos pulsos glotales, con los siguientes parámetros:
 
-Frecuencia = 500 (Hz)
+* Frecuencia = 500 (Hz)
 
-Overlap = 50 %
+* Overlap = 50 %
 
-Bloque = 32 (ms)
+* Bloque = 32 (ms)
 
-Obtenemos los resultados que se pueden observar en la Figura 2.3.
+Obtenemos los resultados que se pueden observar en la Figura a continuación.
 
+[]()
 
+# Contacto
+>[Table of contents](#table-of-contents)
 
-(a)Señal original (b)Síntesis con triangular
+Please do not hesitate to reach out to me if you find any issue with the code or if you have any questions.
 
-(c)Síntesis con Hamming (d)Síntesis con Cuadrada
+* Personal email: [idiaz@itba.edu.ar](mailto:idiaz@itba.edu.ar)
 
-(e)Síntesis con Exponencial
-Figura 2.3:Síntesis de señales con diferentes pulsos glotales
+* LinkedIn Profile: [https://www.linkedin.com/in/iancraz/](https://www.linkedin.com/in/iancraz/)
 
-
-## Referencias
+# Referencias
+>[Table of contents](#table-of-contents)
 
 [1] Bastian Bechtold.Pocoder.url:https://github.com/bastibe/pocoder.
 
@@ -168,4 +171,30 @@ tice. 1.aed. Prentice-Hall, Inc, 2002.isbn: 0-13-242942-X.
 [3] Lawrence R. Rabiner y Ronald W. Schafer.Introduction to Digital Speech Proces-
 sing. 1.aed. now Publishers Inc., 2007.isbn: 978-1-60198-070-0.
 
+# Licencia
+>[Table of contents](#table-of-contents)
+
+```
+MIT License
+
+Copyright (c) 2021 Ian Cruz Diaz
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
 
