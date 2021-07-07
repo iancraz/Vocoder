@@ -28,10 +28,9 @@ ficients(LPC), que se detallará brevemente a continuación.
 ## Modelo de producción de voz
 
 Si recordamos del modelo de producción de voz, podemos simplificar el modelo en los
-bloques de la Figura 2.1.
+bloques de la siguiente Figura.
 
-
-Figura 2.1:Diagrama en bloques del modelo de producción de voz
+<img src="https://github.com/iancraz/Vocoder/blob/main/docs/bloc_diagram.png?raw=true" width=500 align=center>
 
 Realizando algunos cálculos [2] [3], se llega a la conclusión que el filtro error de predic-
 ción estima la inversa del filtro articulatorio, por lo tanto, simplemente estimando el
